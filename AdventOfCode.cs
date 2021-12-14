@@ -1,5 +1,5 @@
 ﻿/*
- Written by Thomas A.
+Written by Thomas A.
 
 Following the Advent of Code 2021
 https://adventofcode.com/ 
@@ -24,15 +24,19 @@ namespace Advent_of_Code
 
             // Day 1, Sonar Sweep
             day = 1;
-            new D01_SonarSweep(AoC.GetInputAsInt(day));
+            //new D01_SonarSweep(AoC.GetInputAsInt(day));
 
             // Day 2, Dive!
             day = 2;
-            new D02_Dive(AoC.GetInput(day));
+            //new D02_Dive(AoC.GetInput(day));
 
             // Day 3, Binary Diagnostic
             day = 3;
-            new D03_BinaryDiagnostic(AoC.GetInput(day));
+            //new D03_BinaryDiagnostic(AoC.GetInput(day));
+
+            // Day 4, Giant Squid
+            day = 4;
+            new D04_GiantSquid(AoC.GetInput(day));
 
         }
 
