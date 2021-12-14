@@ -107,45 +107,76 @@ namespace Advent_of_Code
 
             bool[,,] cardsValuesTicked = new bool[cards.Count, card_dim, card_dim];
             int[,,] cardsLineCompletion = new int[cards.Count, cards[0].Rank, card_dim];
+            bool[] cardCompletion = new bool[cards.Count];
+            int totalCardsCompleted = 0;
+            bool isWinnerFound = false;
             // winDetails details: 0 = card index, 1 = orientation of winning line -> 0-column 1-row, 2 = winning line index, 3 = index of last number called
             int[] winDetails = new int[4];
+            // loseDetails details: 0 = card index, 1 = index of last number called
+            int[] loseDetails = new int[4];
             for (int num = 0; num < numbers.Count; num++)
             {
                 for (int card = 0; card < cards.Count; card++)
                 {
-                    for (int m = 0; m < card_dim; m++)
+                    if (!cardCompletion[card])
                     {
-                        for (int n = 0; n < card_dim; n++)
+
+                        for (int m = 0; m < card_dim; m++)
                         {
-                            if (cards[card][m,n] == numbers[num])
+                            for (int n = 0; n < card_dim; n++)
                             {
-                                cardsValuesTicked[card, m, n] = true;
-                                cardsLineCompletion[card, 0, m]++;
-                                cardsLineCompletion[card, 1, n]++;
-                                if (cardsLineCompletion[card, 0, m] >= card_dim)
+                                if (cards[card][m, n] == numbers[num])
                                 {
-                                    winDetails[0] = card;
-                                    winDetails[1] = 0;
-                                    winDetails[2] = m;
-                                    winDetails[3] = num;
-                                    goto WinnerFound;
-                                }
-                                else if(cardsLineCompletion[card, 1, m] >= card_dim)
-                                {
-                                    winDetails[0] = card;
-                                    winDetails[1] = 1;
-                                    winDetails[2] = m;
-                                    winDetails[3] = num;
-                                    goto WinnerFound;
+                                    cardsValuesTicked[card, m, n] = true;
+                                    cardsLineCompletion[card, 0, m]++;
+                                    cardsLineCompletion[card, 1, n]++;
+
+                                    if (cardsLineCompletion[card, 0, m] >= card_dim)
+                                    {
+                                        cardCompletion[card] = true;
+                                        totalCardsCompleted++;
+                                        if (!isWinnerFound)
+                                        {
+                                            isWinnerFound = true;
+                                            winDetails[0] = card;
+                                            winDetails[1] = 0;
+                                            winDetails[2] = m;
+                                            winDetails[3] = num;
+                                        }
+                                        goto CardCompleted;
+                                    }
+                                    else if (cardsLineCompletion[card, 1, n] >= card_dim)
+                                    {
+                                        cardCompletion[card] = true;
+                                        totalCardsCompleted++;
+                                        if (!isWinnerFound)
+                                        {
+                                            isWinnerFound = true;
+                                            winDetails[0] = card;
+                                            winDetails[1] = 1;
+                                            winDetails[2] = m;
+                                            winDetails[3] = num;
+                                        }
+                                        goto CardCompleted;
+                                    }                                    
                                 }
                             }
                         }
-                    }
+
+                        CardCompleted:
+                        if (totalCardsCompleted >= cards.Count)
+                        {
+                            loseDetails[0] = card;
+                            loseDetails[1] = num;
+                            Console.WriteLine("Loser found, card = " + loseDetails[0] + ", number-index = " + loseDetails[1] + ", number = " + numbers[loseDetails[1]]);
+                            goto LoserFound;
+                        }
+                    }                    
                 }
             }
-            System.Diagnostics.Debug.WriteLine("D04: No winning card was found");
+            System.Diagnostics.Debug.WriteLine("D04: Multiple losing cards were found");
 
-        WinnerFound:
+        LoserFound:
 
             // TODO remove
             /*
@@ -154,17 +185,44 @@ namespace Advent_of_Code
             Console.WriteLine(winnerMessage);
             */
 
-            int remainingValue = 0;
+            // Test
+            string line = "";
+            Console.WriteLine("Card " + loseDetails[0] + ", " + (cardCompletion[loseDetails[0]] ? "Completed" : "Not Completed"));
+            for (int tM = 0; tM < card_dim; tM++)
+            {
+                line = " ";
+                for (int tN = 0; tN < card_dim; tN++)
+                {
+                    line += cardsValuesTicked[loseDetails[0], tM, tN] ? "1 " : "0 ";
+                }
+                Console.WriteLine(line);
+            }
+
+            for (int tM1 = 0; tM1 < card_dim; tM1++)
+            {
+                line = " ";
+                for (int tN1 = 0; tN1 < card_dim; tN1++)
+                {
+                    line += cards[loseDetails[0]][tM1, tN1] + " ";
+                }
+                Console.WriteLine(line);
+            }
+            Console.WriteLine();
+
+
+            int remainingValueWinner = 0;
+            int remainingValueLoser = 0;
             for (int m1 = 0; m1 < card_dim; m1++)
             {
                 for (int n1 = 0; n1 < card_dim; n1++)
                 {
-                    if (!cardsValuesTicked[winDetails[0], m1, n1]) { remainingValue += cards[winDetails[0]][m1, n1]; }
+                    if (!cardsValuesTicked[winDetails[0], m1, n1]) { remainingValueWinner += cards[winDetails[0]][m1, n1]; }
+                    if (!cardsValuesTicked[loseDetails[0], m1, n1]) { remainingValueLoser += cards[loseDetails[0]][m1, n1]; }
                 }
             }
-            Console.WriteLine("1. Multiplying remaining numbers by last called number = " + remainingValue * numbers[winDetails[3]]);
+            Console.WriteLine("1. Multiplying remaining numbers by last called number for winning card = " + remainingValueWinner * numbers[winDetails[3]]);
 
-
+            Console.WriteLine("2. Multiplying remaining numbers on card by last called number for losing card = " + remainingValueLoser * numbers[loseDetails[1]]);
 
 
 
