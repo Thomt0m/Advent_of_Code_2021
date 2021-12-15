@@ -40,7 +40,11 @@ namespace Advent_of_Code
 
             // Day 5, Hydrothermal Venture
             day = 5;
-            new D05_HydrothermalVenture(AoC.GetInput(day));
+            //new D05_HydrothermalVenture(AoC.GetInput(day));
+
+            // Day 6, Lanternfish
+            day = 6;
+            new D06_Lanternfish(AoC.GetInputAsInt2(day));
 
         }
 
@@ -72,6 +76,19 @@ namespace Advent_of_Code
         private int[] GetInputAsInt(int day)
         {
             string[] strings = GetInput(day);
+            int[] content = new int[strings.Length];
+
+            for (int i = 0; i < strings.Length; i++)
+            {
+                int.TryParse(strings[i], out content[i]);
+            }
+
+            return content;
+        }
+
+        private int[] GetInputAsInt2(int day)
+        {
+            string[] strings = GetInput(day)[0].Split(',');
             int[] content = new int[strings.Length];
 
             for (int i = 0; i < strings.Length; i++)

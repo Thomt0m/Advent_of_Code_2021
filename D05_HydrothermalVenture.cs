@@ -81,7 +81,7 @@ namespace Advent_of_Code
 
         public D05_HydrothermalVenture(string[] input)
         {
-            if (input == null || input.Length == 0) { System.Diagnostics.Debug.WriteLine("D04_GiantSquid: recieved invalid input"); return; }
+            if (input == null || input.Length == 0) { System.Diagnostics.Debug.WriteLine("D05: recieved invalid input"); return; }
 
             Console.WriteLine("---- Day 5, Hyrdothermal Venture ----" + "\n");
 
@@ -209,91 +209,6 @@ namespace Advent_of_Code
             }
 
             return lines;
-        }
-
-
-
-        
-
-        private bool IsBetween(int i0, int i1, int i2)
-        {
-            return ((i0 <= i1 && i1 <= i2) || (i0 >= i1 && i1 >= i2));
-        }
-
-        private bool Intersect(int[] line1, int[] line2, out float[] point)
-        {
-            point = new float[2] { 0, 0 };
-
-            int line1X1 = line1[0];
-            int line1Y1 = line1[1];
-            int line1X2 = line1[2];
-            int line1Y2 = line1[3];
-
-            int line2X1 = line2[0];
-            int line2Y1 = line2[1];
-            int line2X2 = line2[2];
-            int line2Y2 = line2[3];
-
-            float a1 = line1Y2 - line1Y1;
-            float b1 = line1X1 - line1X2;
-            float c1 = a1*line1X1 + b1*line1Y1;
-
-            float a2 = line2Y2 - line2Y1;
-            float b2 = line2X1 - line2X2;
-            float c2 = a2 * line2X1 + b2 * line2Y1;
-
-            float d = a1 * b2 - a2 * b1;
-            if (d == 0) { return false; }
-            else
-            {
-                point = new float[2];
-                point[0] = (b2*c1 - b1*c2) / d;
-                point[1] = (a1*c2 - a2*c1) / d;
-
-                return (IsPointOnLine(line1, point) && IsPointOnLine(line2, point));
-            }
-        }
-
-        private bool Intersect(int l1X1, int l1Y1, int l1X2, int l1Y2, int l2X1, int l2Y1, int l2X2, int l2Y2, out float[] point)
-        {
-            point = new float[2] { 0, 0 };
-
-            float a1 = l1Y2 - l1Y1;
-            float b1 = l1X1 - l1X2;
-            float c1 = a1 * l1X1 + b1 * l1Y1;
-
-            float a2 = l2Y2 - l2Y1;
-            float b2 = l2X1 - l2X2;
-            float c2 = a2 * l2X1 + b2 * l2Y1;
-
-            float d = a1 * b2 - a2 * b1;
-            if (d == 0) { return false; }
-            else
-            {
-                point = new float[2];
-                point[0] = (b2 * c1 - b1 * c2) / d;
-                point[1] = (a1 * c2 - a2 * c1) / d;
-
-                return (IsPointOnLine(l1X1, l1Y1, l1X2, l1Y2, point) && IsPointOnLine(l2X1, l2Y1, l2X2, l2Y2, point));
-            }
-        }
-
-        private bool IsPointOnLine(int[] line, float[] point)
-        {
-            int x1 = line[0];
-            int y1 = line[1];
-            int x2 = line[2];
-            int y2 = line[3];
-            float pX = point[0];
-            float pY = point[1];
-            return ((x1 <= pX && x2 >= pX || x1 >= pX && x2 <= pX) && (y1 <= pY && y2 >= pY || y1 >= pY && y2 <= pY));
-        }
-
-        private bool IsPointOnLine(int x1, int y1, int x2, int y2, float[] point)
-        {
-            float pX = point[0];
-            float pY = point[1];
-            return ((x1 <= pX && x2 >= pX || x1 >= pX && x2 <= pX) && (y1 <= pY && y2 >= pY || y1 >= pY && y2 <= pY));
         }
     }
 }
