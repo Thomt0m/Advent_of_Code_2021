@@ -44,7 +44,11 @@ namespace Advent_of_Code
 
             // Day 6, Lanternfish
             day = 6;
-            new D06_Lanternfish(AoC.GetInputAsInt2(day));
+            //new D06_Lanternfish(AoC.GetInputAsInt2(day));
+
+            // Day 7, The Treachery of Whales
+            day = 7;
+            new D07_TheTreacheryOfWhales(AoC.GetInputAsInt3(day));
 
         }
 
@@ -97,6 +101,21 @@ namespace Advent_of_Code
             }
 
             return content;
+        }
+
+        private int[] GetInputAsInt3(int day)
+        {
+            string[] strings = GetInput(day);
+            List<int> content = new List<int>();
+            int value = 0;
+            foreach (string line in strings)
+            {
+                foreach (string s in line.Split(','))
+                {
+                    if (int.TryParse(s, out value)) { content.Add(value); }
+                }
+            }
+            return content.ToArray();
         }
     }
 }
