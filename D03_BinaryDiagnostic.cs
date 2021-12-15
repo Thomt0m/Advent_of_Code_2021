@@ -75,6 +75,8 @@ namespace Advent_of_Code
         Use the binary numbers in your diagnostic report to calculate the oxygen generator rating and CO2 scrubber rating, then multiply them together. What is the life support rating of the submarine? (Be sure to represent your answer in decimal, not binary.)
 
         Your puzzle answer was 2990784.
+
+        Both parts of this puzzle are complete! They provide two gold stars: **
         */
 
 

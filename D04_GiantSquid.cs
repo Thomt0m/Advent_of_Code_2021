@@ -76,6 +76,10 @@ namespace Advent_of_Code
         In the above example, the second board is the last to win, which happens after 13 is eventually called and its middle column is completely marked. If you were to keep playing until this point, the second board would have a sum of unmarked numbers equal to 148 for a final score of 148 * 13 = 1924.
 
         Figure out which board will win last. Once it wins, what would its final score be?
+
+        Your puzzle answer was 31892.
+
+        Both parts of this puzzle are complete! They provide two gold stars: **
         */
 
 
@@ -92,25 +96,13 @@ namespace Advent_of_Code
             List<int> numbers = GetNumbers(input);
             List<int[,]> cards = GetCards(input, card_dim);
 
-            // TODO remove
-            /*
-            Console.WriteLine("numbers.Count = " + numbers.Count);
-            foreach (int num in numbers) { Console.WriteLine(num); }
-
-            Console.WriteLine("cards.Count = " + cards.Count);
-            foreach (int[,] card in cards)
-            {
-                Console.WriteLine(card[0,0]);
-            }
-            */
-
 
             bool[,,] cardsValuesTicked = new bool[cards.Count, card_dim, card_dim];
             int[,,] cardsLineCompletion = new int[cards.Count, cards[0].Rank, card_dim];
             bool[] cardCompletion = new bool[cards.Count];
             int totalCardsCompleted = 0;
             bool isWinnerFound = false;
-            // winDetails details: 0 = card index, 1 = orientation of winning line -> 0-column 1-row, 2 = winning line index, 3 = index of last number called
+            // winDetails details: 0 = card index, 1 = index of last number called
             int[] winDetails = new int[4];
             // loseDetails details: 0 = card index, 1 = index of last number called
             int[] loseDetails = new int[4];
@@ -139,9 +131,7 @@ namespace Advent_of_Code
                                         {
                                             isWinnerFound = true;
                                             winDetails[0] = card;
-                                            winDetails[1] = 0;
-                                            winDetails[2] = m;
-                                            winDetails[3] = num;
+                                            winDetails[1] = num;
                                         }
                                         goto CardCompleted;
                                     }
@@ -153,9 +143,7 @@ namespace Advent_of_Code
                                         {
                                             isWinnerFound = true;
                                             winDetails[0] = card;
-                                            winDetails[1] = 1;
-                                            winDetails[2] = m;
-                                            winDetails[3] = num;
+                                            winDetails[1] = num;
                                         }
                                         goto CardCompleted;
                                     }                                    
@@ -168,7 +156,6 @@ namespace Advent_of_Code
                         {
                             loseDetails[0] = card;
                             loseDetails[1] = num;
-                            Console.WriteLine("Loser found, card = " + loseDetails[0] + ", number-index = " + loseDetails[1] + ", number = " + numbers[loseDetails[1]]);
                             goto LoserFound;
                         }
                     }                    
@@ -176,39 +163,8 @@ namespace Advent_of_Code
             }
             System.Diagnostics.Debug.WriteLine("D04: Multiple losing cards were found");
 
+
         LoserFound:
-
-            // TODO remove
-            /*
-            Console.WriteLine(isWinnerFound ? "Winner found" : "Winner not found");
-            string winnerMessage = "Winning card = " + winDetails[0] + ", " + (winDetails[1] == 0 ? "column" : "row") + " = " + winDetails[2] + ", final num = " + numbers[winDetails[3]];
-            Console.WriteLine(winnerMessage);
-            */
-
-            // Test
-            string line = "";
-            Console.WriteLine("Card " + loseDetails[0] + ", " + (cardCompletion[loseDetails[0]] ? "Completed" : "Not Completed"));
-            for (int tM = 0; tM < card_dim; tM++)
-            {
-                line = " ";
-                for (int tN = 0; tN < card_dim; tN++)
-                {
-                    line += cardsValuesTicked[loseDetails[0], tM, tN] ? "1 " : "0 ";
-                }
-                Console.WriteLine(line);
-            }
-
-            for (int tM1 = 0; tM1 < card_dim; tM1++)
-            {
-                line = " ";
-                for (int tN1 = 0; tN1 < card_dim; tN1++)
-                {
-                    line += cards[loseDetails[0]][tM1, tN1] + " ";
-                }
-                Console.WriteLine(line);
-            }
-            Console.WriteLine();
-
 
             int remainingValueWinner = 0;
             int remainingValueLoser = 0;
@@ -220,11 +176,9 @@ namespace Advent_of_Code
                     if (!cardsValuesTicked[loseDetails[0], m1, n1]) { remainingValueLoser += cards[loseDetails[0]][m1, n1]; }
                 }
             }
-            Console.WriteLine("1. Multiplying remaining numbers by last called number for winning card = " + remainingValueWinner * numbers[winDetails[3]]);
+            Console.WriteLine("1. Multiplying remaining numbers by last called number for winning card = " + remainingValueWinner * numbers[winDetails[1]]);
 
             Console.WriteLine("2. Multiplying remaining numbers on card by last called number for losing card = " + remainingValueLoser * numbers[loseDetails[1]]);
-
-
 
             Console.WriteLine("\n\n");
         }
@@ -277,35 +231,5 @@ namespace Advent_of_Code
 
             return cards;
         }
-
-        private void FillArray3DBool(bool[,,] array, bool value)
-        {
-            for (int m = 0; m < array.GetLength(0); m++)
-            {
-                for (int n = 0; n < array.GetLength(1); n++)
-                {
-                    for (int o = 0; o < array.GetLength(2); o++)
-                    {
-                        array[m, n, o] = value;
-                    }
-                }
-            }
-        }
-
-        private void FillArray3DInt(int[,,] array, int value)
-        {
-            for (int m = 0; m < array.GetLength(0); m++)
-            {
-                for (int n = 0; n < array.GetLength(1); n++)
-                {
-                    for (int o = 0; o < array.GetLength(2); o++)
-                    {
-                        array[m, n, o] = value;
-                    }
-                }
-            }
-        }
-
-
     }
 }

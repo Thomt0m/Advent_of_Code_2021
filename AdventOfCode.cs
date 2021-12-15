@@ -36,7 +36,11 @@ namespace Advent_of_Code
 
             // Day 4, Giant Squid
             day = 4;
-            new D04_GiantSquid(AoC.GetInput(day));
+            //new D04_GiantSquid(AoC.GetInput(day));
+
+            // Day 5, Hydrothermal Venture
+            day = 5;
+            new D05_HydrothermalVenture(AoC.GetInput(day));
 
         }
 

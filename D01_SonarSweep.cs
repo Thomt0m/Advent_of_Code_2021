@@ -88,9 +88,11 @@ namespace Advent_of_Code
         Consider sums of a three-measurement sliding window. How many sums are larger than the previous sum?
 
         Your puzzle answer was 1748.
+
+        Both parts of this puzzle are complete! They provide two gold stars: **
         */
 
-        
+
 
 
         public D01_SonarSweep(int[] input)
