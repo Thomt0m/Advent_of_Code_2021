@@ -48,7 +48,11 @@ namespace Advent_of_Code
 
             // Day 7, The Treachery of Whales
             day = 7;
-            new D07_TheTreacheryOfWhales(AoC.GetInputAsInt3(day));
+            //new D07_TheTreacheryOfWhales(AoC.GetInputAsInt3(day));
+
+            // Day 8, Seven Segment Search
+            day = 8;
+            new D08_SevenSegmentSearch(AoC.GetInput(day));
 
         }
 

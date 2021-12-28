@@ -61,6 +61,10 @@ namespace Advent_of_Code
         This costs a total of 168 fuel. This is the new cheapest possible outcome; the old alignment position (2) now costs 206 fuel instead.
 
         Determine the horizontal position that the crabs can align to using the least fuel possible so they can make you an escape route! How much fuel must they spend to align to that position?
+
+        Your puzzle answer was 98905973.
+
+        Both parts of this puzzle are complete! They provide two gold stars: **
         */
 
 
@@ -70,80 +74,66 @@ namespace Advent_of_Code
 
             Console.WriteLine("---- Day 7, The Treachery Of Whales ----" + "\n");
 
-            int highestValue = 0;
-            for (int i0 = 0; i0 < input.Length; i0++)
+            int hValue = int.MinValue;
+            int lValue = int.MaxValue;
+            for (int mmV = 0; mmV < input.Length; mmV++)
             {
-                if (input[i0] > highestValue) { highestValue = input[i0]; }
-            }
-            highestValue += 1;
-            
-            int[] crabPos = new int[highestValue];
-            for (int i1 = 0; i1 < input.Length; i1++)
-            {
-                crabPos[input[i1]]++;
+                if (input[mmV] > hValue) { hValue = input[mmV]; }
+                else if (input[mmV] < lValue) { lValue = input[mmV]; }
             }
 
-            int[] fuelToPos = new int[highestValue];
-            for (int i2 = 0; i2 < fuelToPos.Length; i2++)
-            {
-                for (int j2 = 0; j2 < crabPos.Length; j2++)
-                {
-                    fuelToPos[i2] += Math.Abs(i2 - j2) * crabPos[j2];
-                }
-            }
+            Console.WriteLine("Min = " + lValue + ", Max = " + hValue);
 
-            int cheapestPos = -1;
             long cheapestPosFuelCost = long.MaxValue;
-            for (int i3 = 0; i3 < fuelToPos.Length; i3++)
+            long fuelCost = 0;
+            for (int newPos0 = lValue; newPos0 < hValue; newPos0++)
             {
-                if (fuelToPos[i3] < cheapestPosFuelCost)
+                fuelCost = 0;
+                for (int startPos0 = 0; startPos0 < input.Length; startPos0++)
                 {
-                    cheapestPos = i3;
-                    cheapestPosFuelCost = fuelToPos[i3];
+                    fuelCost += Math.Abs(input[startPos0] - newPos0);
                 }
+                if (fuelCost < cheapestPosFuelCost) { cheapestPosFuelCost = fuelCost; }
             }
+
             Console.WriteLine("1. Fuel cost to reach cheapest position = " + cheapestPosFuelCost);
 
-            /* Method calculating fuel cost for each position
-            long[] fuelToPosLong = new long[highestValue];
-            int delta = 0;
-            for (int i4 = 0; i4 < fuelToPosLong.Length; i4++)
-            {
-                for (int j4 = 0; j4 < crabPos.Length; j4++)
-                {
-                    delta = Math.Abs(i4 - j4);
-                    fuelToPosLong[i4] += (delta * ((delta + 1) / 2)) * crabPos[j4];
-                }
-            }
 
-            cheapestPos = -1;
+
+
+            // Part 2, (alternate) version calculating the fuel cost for each position and finding the cheapest one out of those
+            /*
             cheapestPosFuelCost = long.MaxValue;
-            for (int i5 = 0; i5 < fuelToPosLong.Length; i5++)
+            for (int newPos1 = lValue; newPos1 < hValue; newPos1++)
             {
-                if (fuelToPosLong[i5] < cheapestPosFuelCost)
+                fuelCost = 0;
+                for (int startPos1 = lValue ; startPos1 < input.Length; startPos1++)
                 {
-                    cheapestPos = i5;
-                    cheapestPosFuelCost = fuelToPosLong[i5];
+                    int d = Math.Abs(input[startPos1] - newPos1);
+                    fuelCost += (d * (d + 1)) / 2;
                 }
+                if (fuelCost < cheapestPosFuelCost) { cheapestPosFuelCost = fuelCost; }
             }
-            Console.WriteLine("2. Fuel cost to reach cheapest position = " + cheapestPosFuelCost);
             */
 
+            // Part 2, version calculating the mean/average position of all crabs, and calculating the fuel cost to reach that position
             long totalPos = 0;
             foreach (int pos in input)
             {
                 totalPos += pos;
             }
-            int centerPos = (int)Math.Round(totalPos / (double)input.Length);
-            long fuelToCenter = 0;
-            int delta = 0;
-            for (int i4 = 0; i4 < crabPos.Length; i4++)
+            int centerPos = (int)Math.Round((double)(totalPos / input.Length));
+            cheapestPosFuelCost = 0;
+            for (int startPos2 = 0; startPos2 < input.Length; startPos2++)
             {
-                delta = Math.Abs(centerPos - i4);
-                fuelToCenter += (delta * ((delta + 1) / 2)) * crabPos[i4];
+                int d = Math.Abs(input[startPos2] - centerPos);
+                cheapestPosFuelCost += (d * (d + 1)) / 2;
             }
-            Console.WriteLine("2. Fuel cost the reach cheapest position = " + fuelToCenter);
-            
+
+
+            Console.WriteLine("2. Fuel cost to reach cheapest position = " + cheapestPosFuelCost);
+
+            Console.WriteLine("\n\n");
         }
 
     }

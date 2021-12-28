@@ -125,6 +125,8 @@ namespace Advent_of_Code
                 count += school[i];
             }
             Console.WriteLine("2. Number of Lanternfish after 256 days = " + count);
+
+            Console.WriteLine("\n\n");
         }
 
 
