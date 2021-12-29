@@ -52,7 +52,11 @@ namespace Advent_of_Code
 
             // Day 8, Seven Segment Search
             day = 8;
-            new D08_SevenSegmentSearch(AoC.GetInput(day));
+            //new D08_SevenSegmentSearch(AoC.GetInput(day));
+
+            // Day 9, Smoke Basin
+            day = 9;
+            new D09_SmokeBasin(AoC.GetInput(day));
 
         }
 

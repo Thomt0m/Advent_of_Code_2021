@@ -82,7 +82,8 @@ namespace Advent_of_Code
                 else if (input[mmV] < lValue) { lValue = input[mmV]; }
             }
 
-            Console.WriteLine("Min = " + lValue + ", Max = " + hValue);
+
+
 
             long cheapestPosFuelCost = long.MaxValue;
             long fuelCost = 0;
