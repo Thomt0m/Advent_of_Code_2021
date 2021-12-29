@@ -88,7 +88,7 @@ namespace Advent_of_Code
 
         public D09_SmokeBasin(string[] input)
         {
-            if (input == null || input.Length == 0) { System.Diagnostics.Debug.WriteLine("D06: recieved invalid input"); return; }
+            if (input == null || input.Length == 0) { System.Diagnostics.Debug.WriteLine("D09: recieved invalid input"); return; }
 
             Console.WriteLine("---- Day 9, Smoke Basin ----" + "\n");
 

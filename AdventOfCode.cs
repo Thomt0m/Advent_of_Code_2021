@@ -26,37 +26,50 @@ namespace Advent_of_Code
             day = 1;
             //new D01_SonarSweep(AoC.GetInputAsInt(day));
 
+
             // Day 2, Dive!
             day = 2;
             //new D02_Dive(AoC.GetInput(day));
+
 
             // Day 3, Binary Diagnostic
             day = 3;
             //new D03_BinaryDiagnostic(AoC.GetInput(day));
 
+
             // Day 4, Giant Squid
             day = 4;
             //new D04_GiantSquid(AoC.GetInput(day));
+
 
             // Day 5, Hydrothermal Venture
             day = 5;
             //new D05_HydrothermalVenture(AoC.GetInput(day));
 
+
             // Day 6, Lanternfish
             day = 6;
             //new D06_Lanternfish(AoC.GetInputAsInt2(day));
+
 
             // Day 7, The Treachery of Whales
             day = 7;
             //new D07_TheTreacheryOfWhales(AoC.GetInputAsInt3(day));
 
+
             // Day 8, Seven Segment Search
             day = 8;
             //new D08_SevenSegmentSearch(AoC.GetInput(day));
 
+
             // Day 9, Smoke Basin
             day = 9;
-            new D09_SmokeBasin(AoC.GetInput(day));
+            //new D09_SmokeBasin(AoC.GetInput(day));
+
+
+            // Day 10, Syntax Scoring
+            day = 10;
+            new D10_SyntaxScoring(AoC.GetInput(day));
 
         }
 

@@ -291,7 +291,7 @@ namespace Advent_of_Code
 
         public D08_SevenSegmentSearch(string[] input)
         {
-            if (input == null || input.Length == 0) { System.Diagnostics.Debug.WriteLine("D06: recieved invalid input"); return; }
+            if (input == null || input.Length == 0) { System.Diagnostics.Debug.WriteLine("D08: recieved invalid input"); return; }
 
             Console.WriteLine("---- Day 8, Seven Segment Search ----" + "\n");
 

@@ -70,7 +70,7 @@ namespace Advent_of_Code
 
         public D07_TheTreacheryOfWhales(int[] input)
         {
-            if (input == null || input.Length == 0) { System.Diagnostics.Debug.WriteLine("D06: recieved invalid input"); return; }
+            if (input == null || input.Length == 0) { System.Diagnostics.Debug.WriteLine("D07: recieved invalid input"); return; }
 
             Console.WriteLine("---- Day 7, The Treachery Of Whales ----" + "\n");
 
