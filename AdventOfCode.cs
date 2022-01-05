@@ -69,7 +69,17 @@ namespace Advent_of_Code
 
             // Day 10, Syntax Scoring
             day = 10;
-            new D10_SyntaxScoring(AoC.GetInput(day));
+            //new D10_SyntaxScoring(AoC.GetInput(day));
+
+
+            // Day 11, Dumbo Octopus
+            day = 11;
+            //new D11_DumboOctopus(AoC.GetInput(day));
+
+
+            // Day 12, Passage Pathing
+            day = 12;
+            new D12_PassagePathing(AoC.GetInput(day));
 
         }
 

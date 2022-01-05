@@ -109,7 +109,7 @@ namespace Advent_of_Code
 
         public D10_SyntaxScoring(string[] input)
         {
-            //if (input == null || input.Length == 0) { System.Diagnostics.Debug.WriteLine("D10: recieved invalid input"); return; }
+            if (input == null || input.Length == 0) { System.Diagnostics.Debug.WriteLine("D10: recieved invalid input"); return; }
 
             Console.WriteLine("---- Day 10, Syntax Scoring ----" + "\n");
 
