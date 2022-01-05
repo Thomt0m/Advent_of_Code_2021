@@ -18,20 +18,9 @@ namespace Advent_of_Code
             PrintMap(map);
 
 
-            List<string> test = new List<string>();
-            test.Add("One");
-            TEST(test);
-            Console.WriteLine("Testing list type");
-            foreach (string s in test)
-            {
-                Console.WriteLine(s);
-            }
-
-
-            /*
-            List<List<int>> paths = map.GetPaths();
+            List<List<int>> paths = map.GetPaths("start", "end");
             Console.WriteLine("1. Number of paths = " + paths.Count);
-            */
+
 
             Console.WriteLine("\n\n");
         }
@@ -229,7 +218,7 @@ namespace Advent_of_Code
                     Connections.Sort();
                 }
 
-                public int CompareTo(Point p)
+                public int CompareTo_WithStartEnd(Point p)
                 {
                     if (_Name == "start") return -1;
                     else if (_Name == "end") return 1;
@@ -242,6 +231,11 @@ namespace Advent_of_Code
                             return _Name.CompareTo(p.Name);
                         }                        
                     }
+                }
+
+                public int CompareTo(Point p)
+                {
+                    return _Name.CompareTo(p.Name);
                 }
 
                 public string Name { get { return _Name; } }
@@ -336,20 +330,25 @@ namespace Advent_of_Code
 
 
 
-            public List<List<int>> GetPaths()
+            public List<List<int>> GetPaths(string start, string end)
             {
                 Paths = new List<List<int>>();
 
-                WalkPath();
+                int startIndex = 0;
+                int endIndex = 0;
+                if (TryGetIndex(start, out startIndex) && TryGetIndex(end, out endIndex))
+                {
+                    WalkPath(new List<int>() { startIndex }, endIndex);
+                }
 
                 PrintPaths(Paths);
                 return Paths;
             }
 
-            private void WalkPath(int point, int end, List<int> path)
+            private void WalkPath(List<int> path, int end)
             {
                 int index = -1;
-                string[] conns = Points[point].GetConnections();
+                string[] conns = Points[path.Last()].GetConnections();
                 for (int i = 0; i < conns.Length; i++)
                 {
                     string conn = conns[i];
@@ -367,8 +366,9 @@ namespace Advent_of_Code
                         // Else the connection is another step in the path, keep walking
                         else
                         {
-                            path.Add(index);
-                            WalkPath(index, end, new List<int>(path));
+                            List<int> newPath = new List<int>(path);
+                            newPath.Add(index);
+                            WalkPath(newPath, end);
                         }
                     }
                     else
