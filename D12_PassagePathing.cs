@@ -19,21 +19,20 @@ namespace Advent_of_Code
 
 
             List<List<int>> paths = map.GetPaths("start", "end");
-            Console.WriteLine("1. Number of paths = " + paths.Count);
+            Console.WriteLine("ExampleInput1: Number of paths = " + paths.Count);
+
+            map.NewMap(ExampleInput2);
+            paths = map.GetPaths("start", "end");
+            Console.WriteLine("ExampleInput2: Number of paths = " + paths.Count);
+
+            map.NewMap(ExampleInput3);
+            paths = map.GetPaths("start", "end");
+            Console.WriteLine("ExampleInput3: Number of paths = " + paths.Count);
 
 
             Console.WriteLine("\n\n");
         }
 
-
-
-
-
-
-        private void TEST(List<string> list)
-        {
-            list.Add("Two");
-        }
 
         
 
@@ -218,7 +217,8 @@ namespace Advent_of_Code
                     Connections.Sort();
                 }
 
-                public int CompareTo_WithStartEnd(Point p)
+                // Compares (sorts) alphabetically, but places "start" at 0, and "end" at the end
+                public int CompareTo_StartEnd(Point p)
                 {
                     if (_Name == "start") return -1;
                     else if (_Name == "end") return 1;
@@ -241,6 +241,16 @@ namespace Advent_of_Code
                 public string Name { get { return _Name; } }
                 public bool IsSmall { get { return _IsSmall;} }
                 public string[] GetConnections() { return Connections.ToArray(); }
+                public string GetConnectionsAsString()
+                {
+                    string conns = "";
+                    for (int i = 0; i < Connections.Count - 1; i++)
+                    {
+                        conns += Connections[i] + " - ";
+                    }
+                    conns += Connections.Last();
+                    return conns;
+                }
             }
 
 
@@ -255,7 +265,9 @@ namespace Advent_of_Code
             /// </summary>
             public List<Point> Points = new List<Point>();
 
-
+            /// <summary>
+            /// List of all paths walked, succesfully from starting-point to end-point, by WalkPath()
+            /// </summary>
             private List<List<int>> Paths = new List<List<int>>();
 
 
@@ -308,6 +320,9 @@ namespace Advent_of_Code
                 }
             }
 
+
+
+
             public bool TryGetIndex(string name, out int index)
             {
                 // Could use binary search, but 'start' and 'end' are not in the correct order (but at the start and end respectively)
@@ -318,6 +333,34 @@ namespace Advent_of_Code
                 }
                 return false;
             }
+
+            public bool TryGetIndexBin(string name, out int index)
+            {
+                index = -1;
+                int min = 0;
+                int max = Points.Count - 1;
+                int mid;
+                int comp;
+                while (min <= max)
+                {
+                    mid = (min + max) / 2;
+                    if (Points[mid].Name == name)
+                    {
+                        index = mid;
+                        return true;
+                    }
+                    else if (Points[mid].Name.CompareTo(name) > 0)
+                    {
+                        max = mid - 1;
+                    }
+                    else
+                    {
+                        min = mid + 1;
+                    }
+                }
+                return false;
+            }
+
 
             public void SortPoints()
             {
@@ -336,7 +379,7 @@ namespace Advent_of_Code
 
                 int startIndex = 0;
                 int endIndex = 0;
-                if (TryGetIndex(start, out startIndex) && TryGetIndex(end, out endIndex))
+                if (TryGetIndexBin(start, out startIndex) && TryGetIndexBin(end, out endIndex))
                 {
                     WalkPath(new List<int>() { startIndex }, endIndex);
                 }
@@ -352,7 +395,7 @@ namespace Advent_of_Code
                 for (int i = 0; i < conns.Length; i++)
                 {
                     string conn = conns[i];
-                    if (TryGetIndex(conn, out index))
+                    if (TryGetIndexBin(conn, out index))
                     {
                         // If the connection is the end-connection, add it to the path and add the entire path to the list of paths
                         if (index == end) { path.Add(index); Paths.Add(path); }
@@ -378,97 +421,6 @@ namespace Advent_of_Code
                 }
             }
 
-
-
-            /*
-            private void FollowPaths(ref List<List<int>> paths)
-            {
-                int index = -1;
-                List<int> _path = paths.Last();
-
-                // Debug, TODO remove
-                PrintPath(_path);
-
-                string[] conns = Points[_path.Last()].GetConnections();
-                int validConns = 0;
-                for (int i = 0; i < conns.Length; i++)
-                {
-                    string s = conns[i];
-                    if (TryGetIndex(s, out index))
-                    {
-                        // If the current connection does not result in a repetition (eg A-C-A-C)
-                        if (!(_path.Count >= 3 && _path[^3] == _path[^1] && _path[^2] == index))
-                        {
-                            // If the connection (cave) is not a small cave that has already been visited
-                            if (!(Points[index].IsSmall && _path.Contains(index)))
-                            {
-                                if (validConns > 0)
-                                {
-                                    paths.Add(new List<int>(_path));
-                                }
-                                validConns++;
-                                paths.Last().Add(index);
-                                // If the current connection is not "end", continue following the path
-                                if (s != "end")
-                                {
-                                    FollowPaths(ref paths);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        System.Diagnostics.Debug.WriteLine($"D12: PointMap.FollowPaths() failed to find index of point {s}");
-                    }
-                }
-            }
-
-
-            private bool GetPath(ref List<int> paths)
-            {
-                // If end is reached
-                if (Points[paths.Last()].Name == "end") { return true; }
-                // If the last moves were a repeat (eg A-B-A-B)
-                else if (paths.Count >= 4 && paths[paths.Count - 4] == paths[paths.Count - 2] && paths[paths.Count - 3] == paths.Last()) { return false; }
-                else
-                {
-                    int index = -1;
-                    foreach (string s in Points[paths.Last()].GetConnections())
-                    {
-                        if (TryGetIndex(s, out index))
-                        {
-                            // If the current connection is "end", add it to the path and return succesfull
-                            if (Points[index].Name == "end") { paths.Add(index); return true; }
-
-                            // If the current connection does not result in a repetition (eg A-B-A-B)
-                            else if (!(paths.Count >= 3 && paths[paths.Count - 4] == paths[paths.Count - 2] && paths[paths.Count - 3] == index))
-                            {
-                                // If not: the cave to be visited is small and has been visited before
-                                if (!(Points[index].IsSmall && paths.Contains(index)))
-                                {
-                                    return
-                                }
-                            }
-                        }
-                        else
-                        {
-                            System.Diagnostics.Debug.WriteLine($"D12: PointMap.GetPath() failed to find index of point {s}");
-                        }
-                    }
-                }
-
-
-            }
-            */
-
-            private bool isIntInPath(int point, List<int> path)
-            {
-                for (int i = 0; i < path.Count - 1; i++)
-                {
-                    if (point == path[i]) { return true; }
-                }
-                return false;
-            }
 
 
 
