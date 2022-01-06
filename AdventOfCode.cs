@@ -79,7 +79,12 @@ namespace Advent_of_Code
 
             // Day 12, Passage Pathing
             day = 12;
-            new D12_PassagePathing(AoC.GetInput(day));
+            //new D12_PassagePathing(AoC.GetInput(day));
+
+
+            // Day 13, Transparent Origami
+            day = 13;
+            new D13_TransparentOrigami(AoC.GetInput(day));
 
         }
 

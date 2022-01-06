@@ -160,7 +160,7 @@ namespace Advent_of_Code
 
         public D12_PassagePathing(string[] input)
         {
-            //if (input == null || input.Length == 0) { System.Diagnostics.Debug.WriteLine("D12: recieved invalid input"); return; }
+            if (input == null || input.Length == 0) { System.Diagnostics.Debug.WriteLine("D12: recieved invalid input"); return; }
 
             Console.WriteLine("---- Day 12, Passage Pathing ----" + "\n");
 
