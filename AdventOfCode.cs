@@ -84,7 +84,12 @@ namespace Advent_of_Code
 
             // Day 13, Transparent Origami
             day = 13;
-            new D13_TransparentOrigami(AoC.GetInput(day));
+            //new D13_TransparentOrigami(AoC.GetInput(day));
+
+
+            // Day 14, Extended Polymerization
+            day = 14;
+            new D14_ExtendedPolymerization(AoC.GetInput(day));
 
         }
 
