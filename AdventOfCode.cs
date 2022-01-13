@@ -8,7 +8,6 @@ https://adventofcode.com/
 
 
 using System;
-using System.Diagnostics;
 
 
 namespace Advent_of_Code
@@ -89,7 +88,12 @@ namespace Advent_of_Code
 
             // Day 14, Extended Polymerization
             day = 14;
-            new D14_ExtendedPolymerization(AoC.GetInput(day));
+            //new D14_ExtendedPolymerization(AoC.GetInput(day));
+
+
+            // Day 15, Chiton
+            day = 15;
+            new D15_Chiton(AoC.GetInput(day));
 
         }
 
@@ -158,6 +162,124 @@ namespace Advent_of_Code
             }
             return content.ToArray();
         }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public static class Utility
+    {
+        // ---------------------------------------------------------
+        // ----------------     Converting     ---------------------
+        // ---------------------------------------------------------
+        #region CONVERTING
+        public static int[,] ConvertStringArrayToInt2DArray(string[] input)
+        {
+            int longestLine = 0;
+            foreach (string line in input)
+            {
+                if (line.Length > longestLine) { longestLine = line.Length; }
+            }
+
+            int[,] map = new int[input.Length, longestLine];
+
+            int value;
+            for (int m = 0; m < input.Length; m++)
+            {
+                for (int n = 0; n < input[m].Length; n++)
+                {
+                    if (int.TryParse(input[m][n].ToString(), out value))
+                    {
+                        map[m, n] = value;
+                    }
+                }
+            }
+
+            return map;
+        }
+        #endregion CONVERTING
+
+
+
+
+
+
+
+
+        // ---------------------------------------------------------
+        // -----------------     Printing     ----------------------
+        // ---------------------------------------------------------
+        #region PRINTING
+        public static void Print(string[] input, string msg = "")
+        {
+            Console.WriteLine("\nPrinting string[]: " + msg);
+            foreach (string str in input)
+            {
+                Console.WriteLine(str);
+            }
+            Console.WriteLine();
+        }
+
+        public static void Print(List<string> input, string msg = "")
+        {
+            Console.WriteLine("\nPrinting List<string>: " + msg);
+            foreach (string str in input)
+            {
+                Console.WriteLine(str);
+            }
+            Console.WriteLine();
+        }
+
+        public static void Print(int[,] input, string msg = "")
+        {
+            Console.WriteLine("\nPrinting int[,]: " + msg);
+            string line;
+            for (int m = 0; m < input.GetLength(0); m++)
+            {
+                line = "";
+                for (int n = 0; n < input.GetLength(1); n++)
+                {
+                    line += input[m, n];
+                }
+                Console.WriteLine(line);
+            }
+            Console.WriteLine();
+        }
+
+        public static void Print(bool[,] input, string msg = "")
+        {
+            Console.WriteLine("\nPrinting bool[,]: " + msg);
+            string line;
+            for (int m = 0; m < input.GetLength(0); m++)
+            {
+                line = "";
+                for (int n = 0; n < input.GetLength(1); n++)
+                {
+                    line += (input[m, n] ? "*" : " ");
+                }
+                Console.WriteLine(line);
+            }
+            Console.WriteLine();
+        }
+        #endregion PRINTING
+
+
     }
 }
 
